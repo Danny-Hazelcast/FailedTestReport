@@ -166,6 +166,11 @@ public class ReportScraper {
         html.table(html.attributes().border("1").cellpadding("6"));
             html.tr();
                 html.th().write("Test Name")._th();
+
+                html.th().write("Assignee")._th();
+                html.th().write("Comments")._th();
+                html.th().write("status")._th();
+
                 html.th().write("Frequency")._th();
 
                 html.th().write("First Fail")._th();
@@ -181,6 +186,11 @@ public class ReportScraper {
             for(ReportLine line : report){
                 html.tr();
                     html.td().write(line.testName)._td();
+
+                    html.td().write("")._td();
+                    html.td().write("")._td();
+                    html.td().write("")._td();
+
                     html.td().write(line.totalFailsCount+"")._td();
 
                     html.td().write(sdf.format(line.first))._td();
