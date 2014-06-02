@@ -24,36 +24,43 @@ public class ReportScraper {
 
     private static final List<FailedTest> failedTests = new ArrayList();
 
-
     static WebClient webClient = new WebClient(BrowserVersion.FIREFOX_17);
 
     static Random random = new Random();
 
     static String buildNamePreFix = "Hazelcast-";
 
+    static int prevBuildsToCheck=7;
+
     static BuiltTarget[] targets =  {
+            new BuiltTarget("Hazelcast-3.maintenance", 0, 308),
+            new BuiltTarget("Hazelcast-3.maintenance-nightly", 0, 126),
 
+            new BuiltTarget("Hazelcast-3.x", 0, 1136),
+            new BuiltTarget("Hazelcast-3.x-nightly", 0, 196),
 
-            new BuiltTarget("Hazelcast-3.maintenance", 282, 292),
+            new BuiltTarget("Hazelcast-3.x-IbmJDK1.6", 0, 184),
+            new BuiltTarget("Hazelcast-3.x-IbmJDK1.7", 0, 194),
 
-            new BuiltTarget("Hazelcast-3.x", 1094, 1104),
-            new BuiltTarget("Hazelcast-3.x-nightly", 179, 189),
+            new BuiltTarget("Hazelcast-3.x-OpenJDK6", 0, 177),
+            new BuiltTarget("Hazelcast-3.x-OpenJDK7", 0, 182),
+            new BuiltTarget("Hazelcast-3.x-OpenJDK8", 0, 206),
 
-            new BuiltTarget("Hazelcast-3.x-IbmJDK1.6", 168, 178),
-            new BuiltTarget("Hazelcast-3.x-IbmJDK1.7", 178, 188),
+            new BuiltTarget("Hazelcast-3.x-OracleJDK1.6", 0, 179),
+            new BuiltTarget("Hazelcast-3.x-OracleJDK8", 0, 78),
 
-            new BuiltTarget("Hazelcast-3.x-OpenJDK6", 160, 170),
-            new BuiltTarget("Hazelcast-3.x-OpenJDK7", 165, 175),
-            new BuiltTarget("Hazelcast-3.x-OpenJDK8", 189, 199),
-
-            new BuiltTarget("Hazelcast-3.x-OracleJDK1.6", 163, 173),
-            new BuiltTarget("Hazelcast-3.x-OracleJDK8", 61, 71),
-
-
-            new BuiltTarget("Hazelcast-3.x-problematicTest", 123, 133)
+            new BuiltTarget("Hazelcast-3.x-problematicTest", 0, 140),
+            new BuiltTarget("Hazelcast-3.maintenance-problematicTest", 0, 43),
     };
 
+    static int failedFreqFilter=2;
+
     public static void main(String[] args) throws IOException, InterruptedException {
+
+        for(BuiltTarget bt : targets){
+            bt.setStartDelta(prevBuildsToCheck);
+        }
+
 
         login();
 
@@ -83,6 +90,8 @@ public class ReportScraper {
         for(FailedTest f : failedTests){
             allTests.put(f.testName, f);
         }
+
+        failedFrequencyFilter(allTests);
 
         List<ReportLine> report = new ArrayList();
 
@@ -147,6 +156,11 @@ public class ReportScraper {
 
         html.h3(html.attributes().align("center")).write("Hazelcast failing tests - From: "+sdf.format(from)+"  To: "+sdf.format(to))._h3();
         html.h5(html.attributes().align("center")).write("Builds processed: "+total+ "  Created on: "+dateFormat.format(new Date()))._h5();
+
+        if(failedFreqFilter>1){
+            html.h5(html.attributes().align("center")).write("Excluding Test failing < "+failedFreqFilter+" times")._h5();
+        }
+
         html.br();
 
         html.table(html.attributes().border("1").cellpadding("6"));
@@ -219,6 +233,8 @@ public class ReportScraper {
             this.fromBuild = fromBuild;
             this.toBuild = toBuild;
         }
+
+        public void setStartDelta(int delta){fromBuild = toBuild - delta;}
     }
 
     public static class FailedTest{
@@ -293,6 +309,22 @@ public class ReportScraper {
         }
     }
 
+    public static void failedFrequencyFilter(ListMultimap<String, FailedTest> testsByName){
+
+        List<String> remove = new ArrayList<String>();
+
+        for(String testName : testsByName.keySet()){
+            int failCount = testsByName.get(testName).size();
+
+            if(failCount < failedFreqFilter){
+                remove.add(testName);
+            }
+        }
+
+        for(String testName : remove){
+            testsByName.removeAll(testName);
+        }
+    }
 
     public static BufferedReader checkPage(String jobName, int idx) throws IOException, FailingHttpStatusCodeException {
         String url = clowedBeezzURL + jobName + "/" + idx + "/consoleText";
