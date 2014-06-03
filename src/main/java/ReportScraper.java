@@ -16,9 +16,9 @@ import java.util.*;
 import static org.rendersnake.HtmlAttributesFactory.href;
 
 public class ReportScraper {
-    private static final String userName = "";
-    private static final String password = "";
-    private static final String clowedBeezzURL = "https://hazelcast-l337.ci.cloudbees.com/job/";
+    private static String userName = "";
+    private static String password = "";
+    private static String clowedBeezzURL = "https://hazelcast-l337.ci.cloudbees.com/job/";
 
     private static final String broken = "Broken";
 
@@ -56,6 +56,8 @@ public class ReportScraper {
     static int failedFreqFilter=2;
 
     public static void main(String[] args) throws IOException, InterruptedException {
+
+        setProperties();
 
         for(BuiltTarget bt : targets){
             bt.setStartDelta(prevBuildsToCheck);
@@ -436,6 +438,25 @@ public class ReportScraper {
 
         HtmlPage p1 = b.get(0).click();
         webClient.waitForBackgroundJavaScript(8000);
+    }
+
+    public static void setProperties(){
+        Properties prop = new Properties();
+        String filename = "config.properties";
+        InputStream input = ReportScraper.class.getClassLoader().getResourceAsStream(filename);
+        if(input==null){
+            System.out.println("Sorry, unable to find " + filename);
+            return;
+        }
+        try {
+            prop.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        userName = prop.getProperty("userName");
+        password = prop.getProperty("password");
     }
 
 }
