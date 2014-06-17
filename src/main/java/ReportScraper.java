@@ -33,27 +33,28 @@ public class ReportScraper {
     static int prevBuildsToCheck=7;
 
     static BuiltTarget[] targets =  {
-            new BuiltTarget("Hazelcast-3.maintenance", 0, 308),
-            new BuiltTarget("Hazelcast-3.maintenance-nightly", 0, 126),
+            new BuiltTarget("Hazelcast-3.maintenance", 0, 323),
+            new BuiltTarget("Hazelcast-3.maintenance-nightly", 0, 141),
+            new BuiltTarget("Hazelcast-3.maintenance-problematicTest", 0, 57),
 
-            new BuiltTarget("Hazelcast-3.x", 0, 1136),
-            new BuiltTarget("Hazelcast-3.x-nightly", 0, 196),
 
-            new BuiltTarget("Hazelcast-3.x-IbmJDK1.6", 0, 184),
-            new BuiltTarget("Hazelcast-3.x-IbmJDK1.7", 0, 194),
+            new BuiltTarget("Hazelcast-3.x", 0,  1215),
+            new BuiltTarget("Hazelcast-3.x-nightly", 0, 210),
 
-            new BuiltTarget("Hazelcast-3.x-OpenJDK6", 0, 177),
-            new BuiltTarget("Hazelcast-3.x-OpenJDK7", 0, 182),
-            new BuiltTarget("Hazelcast-3.x-OpenJDK8", 0, 206),
+            new BuiltTarget("Hazelcast-3.x-IbmJDK1.6", 0, 201),
+            new BuiltTarget("Hazelcast-3.x-IbmJDK1.7", 0, 210),
 
-            new BuiltTarget("Hazelcast-3.x-OracleJDK1.6", 0, 179),
-            new BuiltTarget("Hazelcast-3.x-OracleJDK8", 0, 78),
+            new BuiltTarget("Hazelcast-3.x-OpenJDK6", 0, 192),
+            new BuiltTarget("Hazelcast-3.x-OpenJDK7", 0, 196),
+            new BuiltTarget("Hazelcast-3.x-OpenJDK8", 0, 221),
 
-            new BuiltTarget("Hazelcast-3.x-problematicTest", 0, 140),
-            new BuiltTarget("Hazelcast-3.maintenance-problematicTest", 0, 43),
+            new BuiltTarget("Hazelcast-3.x-OracleJDK1.6", 0, 193),
+            new BuiltTarget("Hazelcast-3.x-OracleJDK8", 0, 93),
+
+            new BuiltTarget("Hazelcast-3.x-problematicTest", 0, 155),
     };
 
-    static int failedFreqFilter=2;
+    static int failedFreqFilter=1;
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
