@@ -34,10 +34,10 @@ public class SuppressionScrap {
     public ListMultimap<String, String> rulesByPakage = ArrayListMultimap.create();
 
 
-    public SuppressionScrap(){
+    public SuppressionScrap(String path){
 
 
-        File fXmlFile = new File("suppressions.xml");
+        File fXmlFile = new File(path);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = null;
         try {
@@ -186,7 +186,7 @@ public class SuppressionScrap {
 
     public static void main(String[] args){
 
-        new SuppressionScrap();
+        new SuppressionScrap(args[0]);
     }
 
 
