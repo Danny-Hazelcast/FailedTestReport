@@ -46,7 +46,6 @@ public class SuppressionScrap {
 
             doc.getDocumentElement().normalize();
 
-            //System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
             NodeList nList = doc.getElementsByTagName("suppress");
 
@@ -90,21 +89,18 @@ public class SuppressionScrap {
             System.out.println("=== Suppression stats ===");
             System.out.println();
 
-            printOverallInfo(allSuppressionsByRule, "Unique Suppressions = ", " Total Suppression instances = ");
 
+            System.out.println("Total Suppression's                      = "+allSuppressionsByRule.size());
+            System.out.println("Total Unique suppression's               = "+allSuppressionsByRule.keySet().size());
 
+            System.out.println("Total Packages with wildcard suppression = "+pakageSuppressionsByWildRule.size());
+            System.out.println("Total Packages with specific suppression = "+rulesByPakage.keySet().size());
 
-            printOverallInfo(rulesByPakage, "Total unique Packages Suppressed =", ", total Package level Suppression instances = ");
-            //System.out.println(pakageSuppressionsByRule.keySet().size());
-            printOverallInfo(rulesByClass,  "Total unique Classes  Suppressed =", ", total Class   level Suppression instances = ");
-            //System.out.println(classSuppressionsByRule.keySet().size());
-
-            System.out.println("Total Classes  Suppressed with \"\" = "+classSuppressionsByWildRule.size());
-            System.out.println("Total Packages Suppressed with \"\" = "+pakageSuppressionsByWildRule.size());
+            System.out.println("Total Classes with wildcard suppression  = "+classSuppressionsByWildRule.size());
+            System.out.println("Total Classes with specific suppression  = "+rulesByClass.keySet().size());
 
 
             System.out.println();
-
 
             System.out.println("---Suppressed Packages Ordered by Suppression instance count---");
             printMostBrokenRule(rulesByPakage);
@@ -132,23 +128,6 @@ public class SuppressionScrap {
         }
 
     }
-
-
-
-
-    public void printOverallInfo(ListMultimap<String, String> suppressionsByRule, String totals, String instances){
-
-        List<BrokenRule> brokenRuleList = getOrderedRuleList(suppressionsByRule);
-
-        int totalBrokenInstances=0;
-        for(BrokenRule rule : brokenRuleList){
-            totalBrokenInstances+=rule.frequency;
-        }
-
-        System.out.println(totals + brokenRuleList.size() + instances +totalBrokenInstances);
-    }
-
-
 
     public void printMostBrokenRule(ListMultimap<String, String> suppressionsByRule){
 
@@ -188,10 +167,7 @@ public class SuppressionScrap {
 
         @Override
         public String toString() {
-            return "{" +
-                    "name='" + name + '\'' +
-                    ", frequency=" + frequency +
-                    '}';
+            return name +"="+ frequency;
         }
     }
 
