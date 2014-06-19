@@ -104,9 +104,28 @@ public class SuppressionScrap {
 
             System.out.println();
 
+            System.out.println("---Wild card Suppressed Packages ---");
+            for(String k : pakageSuppressionsByWildRule.keySet()){
+                for(String p : pakageSuppressionsByWildRule.get(k)){
+                    System.out.println(p);
+                }
+            }
+            System.out.println();
+
+
             System.out.println("---Suppressed Packages Ordered by Suppression instance count---");
             printMostBrokenRule(rulesByPakage);
             System.out.println();
+
+
+            System.out.println("---Wild card Suppressed Classes ---");
+            for(String k : classSuppressionsByWildRule.keySet()){
+                for(String p : classSuppressionsByWildRule.get(k)){
+                    System.out.println(p);
+                }
+            }
+            System.out.println();
+
 
             System.out.println("---Suppressed Classes  Ordered by Suppression instance count---");
             printMostBrokenRule(rulesByClass);
@@ -188,6 +207,8 @@ public class SuppressionScrap {
 
     public static void main(String[] args){
 
+        args = new String[1];
+        args[0]="suppressions.xml";
         new SuppressionScrap(args[0]);
     }
 

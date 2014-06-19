@@ -161,7 +161,6 @@ public class FindBugsScrap {
         }
     }
 
-
     public static void main(String[] args){
 
         //args = new String[1];
@@ -169,6 +168,5 @@ public class FindBugsScrap {
 
         new FindBugsScrap(args[0]);
     }
-
 
 }
