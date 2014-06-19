@@ -207,8 +207,8 @@ public class SuppressionScrap {
 
     public static void main(String[] args){
 
-        args = new String[1];
-        args[0]="suppressions.xml";
+        //args = new String[1];
+        //args[0]="suppressions.xml";
         new SuppressionScrap(args[0]);
     }
 
