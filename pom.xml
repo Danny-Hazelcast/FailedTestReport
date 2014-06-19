@@ -47,7 +47,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>SuppressionScrap</mainClass>
+                            <mainClass>FindBugsScrap</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
