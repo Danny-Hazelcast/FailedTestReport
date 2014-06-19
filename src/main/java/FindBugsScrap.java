@@ -164,8 +164,8 @@ public class FindBugsScrap {
 
     public static void main(String[] args){
 
-        args = new String[1];
-        args[0] = "findbugs.xml";
+        //args = new String[1];
+        //args[0] = "findbugs.xml";
 
         new FindBugsScrap(args[0]);
     }
