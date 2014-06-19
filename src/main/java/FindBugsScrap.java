@@ -29,6 +29,9 @@ public class FindBugsScrap {
     public ListMultimap<String, String> bugsByFile = ArrayListMultimap.create();
 
 
+    public FindBugsScrap(){
+    }
+
     public FindBugsScrap(String path){
 
 
@@ -81,35 +84,6 @@ public class FindBugsScrap {
                 }
             }
 
-
-
-            Date now = new Date();
-            System.out.println("=== FindBugs stats "+now+"===");
-            System.out.println();
-
-            System.out.println("Total Bugs's                      = "+ bugsByType.size());
-            System.out.println();
-
-
-            System.out.println("---bugs by priority---");
-            for(NameCount n : orderByCount(bugsBypriority) ){
-                System.out.println(n.name+"="+n.frequency);
-            }
-            System.out.println();
-
-            System.out.println("---bugs by type---");
-            for(NameCount n : orderByCount(bugsByType) ){
-                System.out.println(n.name+"="+n.frequency);
-            }
-            System.out.println();
-
-            System.out.println("---bugs by File---");
-            for(NameCount n : orderByCount(bugsByFile) ){
-                System.out.println(n.name+"="+n.frequency);
-            }
-            System.out.println();
-
-
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -119,6 +93,42 @@ public class FindBugsScrap {
         }
     }
 
+    public void printData(){
+        Date now = new Date();
+        System.out.println("=== FindBugs stats "+now+"===");
+        System.out.println();
+
+        System.out.println("Total Bugs's                      = "+ bugsByType.size());
+        System.out.println();
+
+
+        System.out.println("---bugs by priority---");
+        for(NameCount n : orderByCount(bugsBypriority) ){
+            System.out.println(n.name+"="+n.frequency);
+        }
+        System.out.println();
+
+        System.out.println("---bugs by type---");
+        for(NameCount n : orderByCount(bugsByType) ){
+            System.out.println(n.name+"="+n.frequency);
+        }
+        System.out.println();
+
+        System.out.println("---bugs by File---");
+        for(NameCount n : orderByCount(bugsByFile) ){
+            System.out.println(n.name+"="+n.frequency);
+        }
+        System.out.println();
+    }
+
+
+    public void merge(FindBugsScrap f){
+
+         bugsByType.putAll(f.bugsByType);
+         bugsBypriority.putAll(f.bugsBypriority);
+         bugsBycategory.putAll(f.bugsBycategory);
+         bugsByFile.putAll(f.bugsByFile);
+    }
 
 
     private  List<NameCount> orderByCount(ListMultimap<String, String> map){
@@ -164,10 +174,16 @@ public class FindBugsScrap {
 
     public static void main(String[] args){
 
-        //args = new String[1];
+        //args = new String[2];
         //args[0] = "findbugs.xml";
+        //args[1] = "findbugs.xml";
 
-        new FindBugsScrap(args[0]);
+        FindBugsScrap all = new FindBugsScrap();
+        for(String s : args){
+            all.merge(new FindBugsScrap(s));
+
+        }
+        all.printData();
     }
 
 
